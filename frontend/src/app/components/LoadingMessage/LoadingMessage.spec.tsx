@@ -11,4 +11,4 @@ describe('<LoadingMessage>', () => {
         expect(wrapper.contains(<span>{message}</span>)).toBeTruthy(); 
     });
   });
-});
+})};
