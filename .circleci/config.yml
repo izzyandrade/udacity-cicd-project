@@ -135,17 +135,17 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            cd ansible
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=udapeople" \
             --region us-east-1 \
-            --output text >> inventory
-      - persist_to_workspace:
-          root: ansible
-          paths:
-            - inventory.txt
-      - destroy-environment
+            --output text >> .circleci/ansible/inventory.txt  
+        - run: cat .circleci/ansible/inventory.txt
+        - persist_to_workspace:
+            root: ~/
+            paths:
+              - project/.circleci/ansible/inventory.txt
+        - destroy-environment
 
   configure-infrastructure:
     docker:
@@ -155,7 +155,8 @@ jobs:
       - add_ssh_keys:
           fingerprints: ['cb:af:63:fd:d4:66:da:e4:ff:80:49:70:14:0b:06:45']
       - attach_workspace:
-          at: /tmp/ansible
+          at: ~/
+      - run: cat .circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
@@ -163,7 +164,7 @@ jobs:
             apk upgrade
             apk add unzip 
             apk add curl
-            /usr/local/bin/python -m pip install --upgrade pip
+            /usr/local/bin/python -m pip install --upgrade pip  
       - run:
           name: Install Ansible
           command: |
@@ -172,11 +173,13 @@ jobs:
       - run:
           name: Install AWS CLI
           command: |
+            # your code here                           
             pip install awscli --upgrade   
-            aws --version
+            aws --version  
       - run:
           name: Configure server
           command: |
+            cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
 
