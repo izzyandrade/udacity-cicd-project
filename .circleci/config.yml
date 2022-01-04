@@ -136,17 +136,17 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             echo [all] > .circleci/ansible/inventory.txt
-            aws ec2 describe-instances /
-            --query 'Reservations[*].Instances[*].PublicIpAddress' /
-            --filters "Name=tag:project,Values=udapeople" /
-            --region us-east-1 /
+            aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --filters "Name=tag:project,Values=udapeople" \
+            --region us-east-1 \
             --output text >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: .circleci/
           paths:
             - ansible/inventory.txt
-      # - destroy-environment
+      - destroy-environment
 
 workflows:
   default:
