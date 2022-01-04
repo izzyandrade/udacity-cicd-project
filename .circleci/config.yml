@@ -140,12 +140,12 @@ jobs:
             --filters "Name=tag:project,Values=udapeople" \
             --region us-east-1 \
             --output text >> .circleci/ansible/inventory.txt
-            echo `cat .circleci/ansible/inventory.txt`      
-        - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
-        - destroy-environment
+            echo `cat .circleci/ansible/inventory.txt`
+      - persist_to_workspace:
+        root: ~/
+        paths:
+          - project/.circleci/ansible/inventory.txt
+      - destroy-environment
 
   configure-infrastructure:
     docker:
@@ -163,7 +163,7 @@ jobs:
             apk upgrade
             apk add unzip 
             apk add curl
-            /usr/local/bin/python -m pip install --upgrade pip  
+            /usr/local/bin/python -m pip install --upgrade pip
       - run:
           name: Install Ansible
           command: |
@@ -174,7 +174,7 @@ jobs:
           command: |
             # your code here                           
             pip install awscli --upgrade   
-            aws --version  
+            aws --version
       - run:
           name: Configure server
           command: |
