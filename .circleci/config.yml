@@ -24,7 +24,7 @@ commands:
             # then
               cd ~/project/backend
               npm install
-              npm run migration:revert
+              npm run migrations:revert
             # fi
 
 jobs:
@@ -305,7 +305,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --region us-east-1 --output text)
+            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --region us-east-1 --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
