@@ -8,6 +8,10 @@
     src: ~/project/artifact.tar.gz
     dest: /home/ubuntu/backend
 
+- name: 'wait 60 seconds for target connection to become reachable/usable.'
+      wait_for_connection:
+        timeout: 60
+
 - name: Run server
   become: true
   shell: |

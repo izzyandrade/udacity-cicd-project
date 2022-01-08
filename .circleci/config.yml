@@ -269,8 +269,9 @@ jobs:
             apk add unzip
             apk add curl
             apk add --update ansible
-            apk add --update nodejs nodejs-npm
+            apk add --update nodejs npm
             /usr/local/bin/python -m pip install --upgrade pip
+            sudo pip install awscli
       - run:
           name: Deploy backend
           command: |
