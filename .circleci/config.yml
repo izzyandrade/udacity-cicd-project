@@ -344,7 +344,7 @@ jobs:
             echo newWorkFlowId: "${CIRCLE_WORKFLOW_ID:0:7}"
             echo OldWorkflowID: "${OldWorkflowID}"  
                   
-            if [[ $OldWorkflowID = EMPTY ]] 
+            if [[ "$OldWorkflowID" = EMPTY ]] 
             then             
               echo "Oldworkflow is InitialStack"
               OldWorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"                
@@ -354,23 +354,16 @@ jobs:
 
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
-              --stack-name ProjectStack \
+              --stack-name ProjectStack2 \
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" OldWorkflowID="${OldWorkflowID}" \
               --tags project=udapeople
       - destroy-environment
 
   cleanup:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: amazon/aws-cli
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apk update
-            apk upgrade
-            /usr/local/bin/python -m pip install --upgrade pip
-            pip install awscli --upgrade
       - run:
           name: Get old stack workflow id and remove old stacks
           command: |
