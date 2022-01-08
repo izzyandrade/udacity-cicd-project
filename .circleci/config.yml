@@ -330,17 +330,9 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: amazon/aws-cli
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apk update
-            apk upgrade
-            apk add nodejs npm
-            /usr/local/bin/python -m pip install --upgrade pip
-            pip install awscli --upgrade
       - run:
           name: Update cloudfront distribution
           command: |
@@ -367,7 +359,6 @@ jobs:
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
       - destroy-environment
-      - revert-migrations
 
   cleanup:
     docker:
