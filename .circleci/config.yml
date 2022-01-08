@@ -271,7 +271,7 @@ jobs:
             apk add --update ansible
             apk add --update nodejs npm
             /usr/local/bin/python -m pip install --upgrade pip
-            sudo pip install awscli
+            pip install awscli
       - run:
           name: Deploy backend
           command: |
