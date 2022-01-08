@@ -338,6 +338,7 @@ jobs:
           command: |
             apk update
             apk upgrade
+            apk add nodejs npm
             /usr/local/bin/python -m pip install --upgrade pip
             pip install awscli --upgrade
       - run:
@@ -352,7 +353,7 @@ jobs:
             echo newWorkFlowId: "${CIRCLE_WORKFLOW_ID:0:7}"
             echo OldWorkflowID: "${OldWorkflowID}"  
                   
-            if [[ $OldWorkflowID = EMPTY ]] 
+            if [[ $OldWorkflowID = "" ]] 
             then             
               echo "Oldworkflow is InitialStack"
               OldWorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"                
