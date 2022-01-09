@@ -198,6 +198,12 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
+
+      - run:
+          name: Set prometheus node exporter
+          command: |
+            cd .circleci/ansible/
+            ansible-playbook -i inventory.txt set-node-exporter.yml
       - destroy-environment
 
   run-migrations:
