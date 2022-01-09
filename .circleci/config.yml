@@ -345,7 +345,7 @@ jobs:
             /usr/local/bin/python -m pip install --upgrade pip
             pip install awscli --upgrade
       - run:
-          name: Update cloudfront distribution
+          name: Update cloudfront distribution with new deployment
           command: |
             export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==\`OldWorkflowID\`].Value" --no-paginate --output text)
             export CurrentWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text)
